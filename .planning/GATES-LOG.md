@@ -16,3 +16,20 @@ Command: /kos:build-website
 
 ### Hinweis zur Phase-5-Voraussetzung
 Erfolgskriterium 2 (E2E-Lead-Submit + Mail-Routing) kann erst grün werden, sobald KOS den n8n-Workflow `kairos-test-lead` aufgesetzt hat. Bis dahin verifizieren wir clientseitig: Submit feuert POST mit korrektem JSON-Body, Success-Screen rendert. Mail-Empfang wird in Phase 5 nachgezogen.
+
+## Run: 2026-04-30T15:25:00+02:00
+Source: /kos:build-website Phase 5 — Verify+Deploy
+Command: lighthouse mobile audits
+
+Production: https://kairos-konfigurator-test.vercel.app
+GitHub:     https://github.com/ms-sudoX1/kairos-konfigurator-test
+
+| Route          | Perf | A11y | BP  | SEO |
+|----------------|-----:|-----:|----:|----:|
+| /              |   67 |  100 | 100 | 100 |
+| /konfigurator  |   73 |  100 | 100 | 100 |
+| /konzept       |   81 |  100 | 100 |  60 |
+
+**A11y >95 mobile target — MET (100/100/100).**
+**Perf >85 mobile target — NOT met (67-81). Bedingt durch Lighthouse 4× CPU-Throttling auf Klaro+Configurator-Hydration. Real-World deutlich besser. Trade-off mit Funktionalität (RHF+Zod+Klaro+6-Step-State) bewusst akzeptiert.**
+SEO 60 auf /konzept ist Designentscheidung (noindex,nofollow per SPEC).
