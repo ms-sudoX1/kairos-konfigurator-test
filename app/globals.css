@@ -15,8 +15,8 @@
   --gold-text: #d4a24c;
   --gold-glow: rgba(212, 162, 76, 0.18);
   --text-primary: #f5ede0;
-  --text-secondary: #a89b85;
-  --text-muted: #6e6557;
+  --text-secondary: #b8ad97;
+  --text-muted: #8c8275;
   --border: rgba(212, 162, 76, 0.15);
   --border-strong: rgba(212, 162, 76, 0.32);
   --header-bg: rgba(10, 10, 10, 0.72);
@@ -33,12 +33,12 @@
   --gold-text: #6b4d17;
   --gold-glow: rgba(184, 134, 46, 0.10);
   --text-primary: #1a1612;
-  --text-secondary: #5c5142;
-  --text-muted: #8c8275;
+  --text-secondary: #4a4135;
+  --text-muted: #6b6155;
   --border: rgba(184, 134, 46, 0.20);
   --border-strong: rgba(184, 134, 46, 0.45);
   --header-bg: rgba(250, 246, 238, 0.78);
-  --btn-on-gold: #faf6ee;
+  --btn-on-gold: #0a0a0a;
 }
 
 @theme inline {

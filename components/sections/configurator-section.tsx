@@ -1,4 +1,18 @@
-import { Configurator } from "@/components/configurator/configurator";
+"use client";
+
+import dynamic from "next/dynamic";
+
+const Configurator = dynamic(
+  () => import("@/components/configurator/configurator").then((m) => m.Configurator),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="card card-strong min-h-[480px] grid place-items-center text-[color:var(--text-secondary)] text-sm">
+        Konfigurator wird geladen …
+      </div>
+    ),
+  }
+);
 
 export function ConfiguratorSection() {
   return (
