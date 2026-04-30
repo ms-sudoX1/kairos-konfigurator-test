@@ -27,8 +27,11 @@ export default function KonfiguratorPage() {
           </div>
         </section>
 
-        <section className="pb-20 md:pb-28">
+        <section className="pb-20 md:pb-28" aria-labelledby="konfigurator-heading">
           <div className="mx-auto max-w-[1200px] px-5 md:px-10">
+            <h2 id="konfigurator-heading" className="sr-only">
+              Konfigurator — sechs Schritte
+            </h2>
             <Configurator />
           </div>
         </section>
