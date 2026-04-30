@@ -371,6 +371,30 @@ body::after {
   transition-duration: 0s !important;
 }
 
+/* Klaro consent — AA contrast overrides (default theme fails AA on links/buttons) */
+.klaro .cookie-notice .cm-link,
+.klaro .cookie-modal .cm-link,
+.klaro a.cn-learn-more {
+  color: #5a3f10 !important;
+  text-decoration: underline;
+}
+.klaro .cookie-notice .cm-btn-danger,
+.klaro .cookie-modal .cm-btn-danger,
+.klaro .cookie-notice .cn-decline,
+.klaro .cookie-modal .cn-decline {
+  background: #4a4135 !important;
+  color: #ffffff !important;
+}
+.klaro .cookie-notice .cm-btn-success,
+.klaro .cookie-modal .cm-btn-success,
+.klaro .cookie-notice .cm-btn-success-var,
+.klaro .cookie-modal .cm-btn-success-var,
+.klaro .cn-ok button.cm-btn-success,
+.klaro .cm-btn.cm-btn-info {
+  background: #5a3f10 !important;
+  color: #ffffff !important;
+}
+
 /* Accordion animations (Radix) */
 @keyframes accordion-down {
   from { height: 0; opacity: 0; }

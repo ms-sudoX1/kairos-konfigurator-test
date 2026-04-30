@@ -33,11 +33,22 @@ function removeUmami() {
     .forEach((n) => n.remove());
 }
 
+function patchDialogA11y() {
+  const notice = document.getElementById("klaro-cookie-notice");
+  if (notice && !notice.getAttribute("aria-label")) {
+    notice.setAttribute("aria-label", "Cookies und Tracking — Auswahl");
+  }
+  const modal = document.querySelector(".klaro .cookie-modal [role='dialog']");
+  if (modal && !modal.getAttribute("aria-label")) {
+    modal.setAttribute("aria-label", "Cookie-Einstellungen");
+  }
+}
+
 export function ConsentProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let cancelled = false;
 
-    (async () => {
+    const boot = async () => {
       try {
         const klaro = await import("klaro");
         if (cancelled) return;
@@ -46,7 +57,6 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
 
         // ASSUMPTION: Klaro-Manager-Watcher API ist v0.7.x kompatibel.
         const manager = klaro.getManager(klaroConfig as never) as {
-
           watch: (cb: { update: (m: unknown, ev: string, payload: unknown) => void }) => void;
           getConsent: (name: string) => boolean;
         };
@@ -54,19 +64,27 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
         const sync = () => {
           if (manager.getConsent("umami")) injectUmami();
           else removeUmami();
+          patchDialogA11y();
         };
 
         sync();
         manager.watch({ update: () => sync() });
+        const obs = new MutationObserver(patchDialogA11y);
+        obs.observe(document.body, { childList: true, subtree: true });
       } catch (err) {
-        // Klaro fehlt → Tracking bleibt aus. Test-Seite funktioniert weiter.
         console.warn("Klaro init failed", err);
       }
-    })();
-
-    return () => {
-      cancelled = true;
     };
+
+    const idle = (window as unknown as { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback;
+    if (typeof idle === "function") {
+      idle(() => { void boot(); }, { timeout: 2000 });
+    } else {
+      const t = window.setTimeout(boot, 1200);
+      return () => { cancelled = true; clearTimeout(t); };
+    }
+
+    return () => { cancelled = true; };
   }, []);
 
   return children;
