@@ -56,6 +56,7 @@ export const klaroConfig = {
       purposes: {
         analytics: { title: "Reichweitenmessung" },
         advertising: { title: "Werbung" },
+        "lead-processing": { title: "Kontaktaufnahme & Lead-Verarbeitung" },
       },
       poweredBy: "Realisiert mit Klaro!",
       contextualConsent: {
@@ -66,6 +67,18 @@ export const klaroConfig = {
     },
   },
   services: [
+    {
+      name: "lead-submission",
+      title: "Anfrage-Übermittlung an Kairos zur Kontaktaufnahme",
+      purposes: ["lead-processing"],
+      cookies: [],
+      default: false,
+      required: false,
+      optOut: false,
+      onlyOnce: true,
+      description:
+        "Übermittelt deine Konfigurator-Eingaben und Kontaktdaten an Kairos, damit du eine persönliche Beratung erhältst. Ohne diese Einwilligung können wir deine Anfrage nicht verarbeiten.",
+    },
     {
       name: "umami",
       title: "Umami Analytics",

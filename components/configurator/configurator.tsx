@@ -25,7 +25,9 @@ import {
   type TravelDays,
   type TreatmentId,
 } from "@/lib/pricing";
-import { submitLead } from "@/lib/submit";
+import { submitLead, type SubmitResult } from "@/lib/submit";
+import { readUTMFromWindow, type UTMParams } from "@/lib/utm";
+import { getLeadSubmissionConsent, openConsentModal } from "@/components/consent/consent-provider";
 
 const STEP_COUNT = 6;
 const MAX_TREATMENTS = 3;
@@ -58,12 +60,21 @@ const leadSchema = z.object({
 
 type LeadForm = z.infer<typeof leadSchema>;
 
+type SubmitErrorState =
+  | { kind: "consent_required" }
+  | { kind: "missing_required" }
+  | { kind: "rate_limit"; retryAfterSeconds: number }
+  | { kind: "server_error" }
+  | { kind: "network_error" }
+  | { kind: "timeout" };
+
 export function Configurator() {
   const [step, setStep] = useState(0);
   const [state, setState] = useState<ConfiguratorState>(initialState);
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<SubmitErrorState | null>(null);
+  const [utm] = useState<UTMParams>(() => readUTMFromWindow());
 
   const form = useForm<LeadForm>({
     resolver: zodResolver(leadSchema),
@@ -107,42 +118,77 @@ export function Configurator() {
 
   const onSubmit: SubmitHandler<LeadForm> = async (values) => {
     if (submitting) return;
+    setSubmitError(null);
+
+    // Klaro-Gate (E172). Submit nur nach explizitem lead-submission-Consent.
+    const klaro = getLeadSubmissionConsent();
+    if (!klaro.accepted) {
+      setSubmitError({ kind: "consent_required" });
+      openConsentModal();
+      return;
+    }
+
     setSubmitting(true);
-    setErrorMsg(null);
-    try {
-      const res = await submitLead({
-        source: "kairos-konfigurator-test",
-        submittedAt: new Date().toISOString(),
-        contact: {
-          firstName: values.firstName,
-          email: values.email,
-          phone: values.phone || undefined,
-          consent: true,
-        },
-        configuration: state,
-        estimate: {
-          treatments: treatmentTotal,
-          travel: travelTotal,
-          serviceFee,
-          total,
-          germanyEquivalent: deEquiv,
-          currency: "EUR",
-        },
-        meta: {
-          referrer: typeof document !== "undefined" ? document.referrer : undefined,
-          userAgent: typeof navigator !== "undefined" ? navigator.userAgent : undefined,
-          locale: "de-DE",
-        },
-      });
-      if (!res.ok) {
-        setErrorMsg(`Übermittlung fehlgeschlagen (Status ${res.status}). Bitte später erneut versuchen.`);
+    const phone = values.phone?.trim() || null;
+    const email = values.email?.trim() || null;
+
+    const result: SubmitResult = await submitLead({
+      contact_name: values.firstName.trim(),
+      contact_email: email,
+      contact_phone: phone,
+      consent_given: values.consent === true,
+      utm,
+      landing_page_url:
+        typeof window !== "undefined" ? window.location.href : "https://kairos-konfigurator-test.vercel.app/konfigurator",
+      referrer_url:
+        typeof document !== "undefined" && document.referrer ? document.referrer : null,
+      user_agent: typeof navigator !== "undefined" ? navigator.userAgent : "",
+      state,
+      estimate: {
+        treatments_eur: treatmentTotal,
+        travel_eur: travelTotal,
+        service_fee_eur: serviceFee,
+        total_eur: total,
+        germany_equivalent_eur: deEquiv,
+        currency: "EUR",
+      },
+      klaro_consent: {
+        lead_submission: klaro.accepted,
+        accepted_at: klaro.acceptedAt,
+      },
+    });
+
+    setSubmitting(false);
+
+    switch (result.kind) {
+      case "success":
+        if (result.mailFailed) {
+          console.warn("[lead] webhook returned ok_mail_failed — server-side mail delivery failed");
+        }
+        if (result.leadId) {
+          console.info("[lead] submitted", { leadId: result.leadId });
+        }
+        setSuccess(true);
         return;
-      }
-      setSuccess(true);
-    } catch {
-      setErrorMsg("Verbindung fehlgeschlagen. Bitte später erneut versuchen.");
-    } finally {
-      setSubmitting(false);
+      case "consent_required":
+        setSubmitError({ kind: "consent_required" });
+        openConsentModal();
+        return;
+      case "missing_required":
+        setSubmitError({ kind: "missing_required" });
+        return;
+      case "rate_limit":
+        setSubmitError({ kind: "rate_limit", retryAfterSeconds: result.retryAfterSeconds });
+        return;
+      case "timeout":
+        setSubmitError({ kind: "timeout" });
+        return;
+      case "network_error":
+        setSubmitError({ kind: "network_error" });
+        return;
+      case "server_error":
+        setSubmitError({ kind: "server_error" });
+        return;
     }
   };
 
@@ -171,7 +217,7 @@ export function Configurator() {
             {step === 5 && (
               <Step6
                 form={form}
-                errorMsg={errorMsg}
+                submitError={submitError}
               />
             )}
           </div>
@@ -476,14 +522,55 @@ function Step5({
   );
 }
 
+function submitErrorMessage(err: SubmitErrorState): {
+  text: string;
+  showRetry: boolean;
+  showConsentReopen: boolean;
+} {
+  switch (err.kind) {
+    case "consent_required":
+      return {
+        text: "Bitte akzeptiere im Cookie-Banner die Anfrage-Übermittlung, damit wir deine Anfrage verarbeiten dürfen.",
+        showRetry: false,
+        showConsentReopen: true,
+      };
+    case "missing_required":
+      return {
+        text: "Bitte gib eine E-Mail-Adresse oder Telefonnummer an.",
+        showRetry: false,
+        showConsentReopen: false,
+      };
+    case "rate_limit":
+      return {
+        text: `Zu viele Anfragen. Bitte versuche es in ${err.retryAfterSeconds} Sekunden erneut.`,
+        showRetry: false,
+        showConsentReopen: false,
+      };
+    case "timeout":
+      return {
+        text: "Die Anfrage hat zu lange gedauert. Bitte erneut versuchen oder direkt an info@kairosconfident.de schreiben.",
+        showRetry: true,
+        showConsentReopen: false,
+      };
+    case "network_error":
+    case "server_error":
+      return {
+        text: "Tut uns leid, technischer Fehler. Bitte schreibe uns direkt an info@kairosconfident.de oder versuche es erneut.",
+        showRetry: true,
+        showConsentReopen: false,
+      };
+  }
+}
+
 function Step6({
   form,
-  errorMsg,
+  submitError,
 }: {
   form: ReturnType<typeof useForm<LeadForm>>;
-  errorMsg: string | null;
+  submitError: SubmitErrorState | null;
 }) {
   const { register, formState: { errors } } = form;
+  const errInfo = submitError ? submitErrorMessage(submitError) : null;
   return (
     <div id="lead">
       <h3 className="font-display text-2xl md:text-[1.65rem] leading-tight mb-2 text-[color:var(--text-primary)]">
@@ -548,9 +635,21 @@ function Step6({
         <span className="text-xs text-red-400 mt-2 block">{errors.consent.message}</span>
       )}
 
-      {errorMsg && (
-        <div className="mt-5 text-sm text-red-400 border border-red-400/40 rounded-md px-4 py-3">
-          {errorMsg}
+      {errInfo && (
+        <div
+          role="alert"
+          className="mt-5 text-sm text-red-400 border border-red-400/40 rounded-md px-4 py-3"
+        >
+          <div>{errInfo.text}</div>
+          {errInfo.showConsentReopen && (
+            <button
+              type="button"
+              onClick={openConsentModal}
+              className="mt-2 underline text-[color:var(--gold-text)] hover:opacity-80"
+            >
+              Cookie-Einstellungen öffnen
+            </button>
+          )}
         </div>
       )}
     </div>

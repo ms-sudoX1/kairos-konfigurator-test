@@ -14,6 +14,20 @@ declare global {
   }
 }
 
+const LEAD_SUBMISSION_SERVICE = "lead-submission";
+
+let leadSubmissionAccepted = false;
+let leadSubmissionAcceptedAt: string | null = null;
+
+export interface LeadSubmissionConsent {
+  accepted: boolean;
+  acceptedAt: string | null;
+}
+
+export function getLeadSubmissionConsent(): LeadSubmissionConsent {
+  return { accepted: leadSubmissionAccepted, acceptedAt: leadSubmissionAcceptedAt };
+}
+
 function injectUmami() {
   if (typeof document === "undefined") return;
   if (!trackingIds.umamiWebsiteId) return;
@@ -64,6 +78,15 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
         const sync = () => {
           if (manager.getConsent("umami")) injectUmami();
           else removeUmami();
+
+          const accepted = manager.getConsent(LEAD_SUBMISSION_SERVICE);
+          if (accepted && !leadSubmissionAccepted) {
+            leadSubmissionAcceptedAt = new Date().toISOString();
+          } else if (!accepted) {
+            leadSubmissionAcceptedAt = null;
+          }
+          leadSubmissionAccepted = accepted;
+
           patchDialogA11y();
         };
 
