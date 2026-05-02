@@ -42,21 +42,26 @@ const initialState: ConfiguratorState = {
   travelMonth: null,
 };
 
-const leadSchema = z.object({
-  firstName: z
-    .string()
-    .min(2, "Bitte mindestens 2 Zeichen")
-    .max(60, "Bitte kürzer fassen"),
-  email: z.string().email("Bitte gültige E-Mail-Adresse"),
-  phone: z
-    .string()
-    .max(40)
-    .optional()
-    .or(z.literal("")),
-  consent: z.literal(true, {
-    message: "Bitte zustimmen, damit wir dich kontaktieren dürfen.",
-  }),
-});
+const leadSchema = z
+  .object({
+    firstName: z
+      .string()
+      .min(2, "Bitte mindestens 2 Zeichen")
+      .max(60, "Bitte kürzer fassen"),
+    email: z
+      .string()
+      .email("Bitte gültige E-Mail-Adresse")
+      .or(z.literal(""))
+      .optional(),
+    phone: z.string().max(40).optional().or(z.literal("")),
+    consent: z.literal(true, {
+      message: "Bitte zustimmen, damit wir dich kontaktieren dürfen.",
+    }),
+  })
+  .refine((data) => !!data.email?.trim() || !!data.phone?.trim(), {
+    message: "Bitte E-Mail-Adresse oder Telefonnummer angeben",
+    path: ["email"],
+  });
 
 type LeadForm = z.infer<typeof leadSchema>;
 
@@ -580,8 +585,12 @@ function Step6({
         Wir melden uns innerhalb von 24 Stunden mit einer persönlichen Einschätzung.
       </p>
 
+      <p className="text-xs text-[color:var(--text-muted)] mb-3">
+        Mindestens eine Kontaktmöglichkeit angeben — E-Mail oder Telefon.
+      </p>
+
       <div className="grid sm:grid-cols-2 gap-4">
-        <label className="block">
+        <label className="block sm:col-span-2">
           <span className="eyebrow mb-2 block">Vorname *</span>
           <input
             type="text"
@@ -596,7 +605,7 @@ function Step6({
         </label>
 
         <label className="block">
-          <span className="eyebrow mb-2 block">E-Mail *</span>
+          <span className="eyebrow mb-2 block">E-Mail</span>
           <input
             type="email"
             autoComplete="email"
@@ -609,8 +618,8 @@ function Step6({
           )}
         </label>
 
-        <label className="block sm:col-span-2">
-          <span className="eyebrow mb-2 block">Telefon (optional)</span>
+        <label className="block">
+          <span className="eyebrow mb-2 block">Telefon</span>
           <input
             type="tel"
             autoComplete="tel"
@@ -618,6 +627,9 @@ function Step6({
             className="input-field"
             placeholder="+49 …"
           />
+          {errors.phone && (
+            <span className="text-xs text-red-400 mt-1 block">{errors.phone.message}</span>
+          )}
         </label>
       </div>
 
