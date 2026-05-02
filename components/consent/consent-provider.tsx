@@ -6,16 +6,15 @@ import "klaro/dist/klaro.css";
 
 declare global {
   interface Window {
-    klaro?: {
-      show: () => void;
-      getManager: () => unknown;
-    };
     klaroConfig?: typeof klaroConfig;
   }
 }
 
 const LEAD_SUBMISSION_SERVICE = "lead-submission";
 
+type KlaroModule = typeof import("klaro");
+
+let klaroModule: KlaroModule | null = null;
 let leadSubmissionAccepted = false;
 let leadSubmissionAcceptedAt: string | null = null;
 
@@ -66,6 +65,7 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
       try {
         const klaro = await import("klaro");
         if (cancelled) return;
+        klaroModule = klaro;
         window.klaroConfig = klaroConfig;
         klaro.setup(klaroConfig as never);
 
@@ -115,5 +115,5 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
 
 export function openConsentModal() {
   if (typeof window === "undefined") return;
-  window.klaro?.show?.();
+  klaroModule?.show?.();
 }
