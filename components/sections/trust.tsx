@@ -3,19 +3,19 @@ const TRUST_ITEMS = [
     roman: "i.",
     title: "Materialien aus DE & CH.",
     body:
-      "Implantate von Straumann und Nobel Biocare, Keramik aus deutschen Manufakturen. Identische Qualitätsklasse wie in einer Premium-Praxis in München.",
+      "Namhafte deutsche und schweizer Hersteller, identische Qualitätsklasse wie in einer Premium-Praxis in München.",
   },
   {
     roman: "ii.",
     title: "Master-zertifizierte Zahnärzte.",
     body:
-      "Unsere Behandlerinnen und Behandler haben ihre Master-Abschlüsse an europäischen Universitäten erworben — Spezialisierung auf Implantologie und ästhetische Zahnmedizin.",
+      "International zertifizierte Behandlerinnen und Behandler mit Spezialisierung auf Implantologie und ästhetische Zahnmedizin.",
   },
   {
     roman: "iii.",
     title: "Garantie & Nachsorge.",
     body:
-      "Fünf Jahre Material-Garantie auf Implantate, lebenslange Nachsorge auf Wunsch in Deutschland — Partnerpraxen in München, Hamburg und Köln.",
+      "Schriftliche Garantie auf alle Arbeiten. Nachsorge-Koordination auf Wunsch in Deutschland.",
   },
 ];
 
