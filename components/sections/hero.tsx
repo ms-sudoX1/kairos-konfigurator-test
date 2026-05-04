@@ -4,9 +4,9 @@ import { supabaseAsset } from "@/lib/storage-url";
 
 const STATS = [
   { value: "70 %", label: "Ersparnis vs. Deutschland" },
-  { value: "5★", label: "Klinik & Hotel" },
+  { value: "5,0★*", label: "Google Reviews" },
   { value: "24 h", label: "Antwort auf Anfrage" },
-  { value: "DE", label: "Materialien & Beratung" },
+  { value: "500+", label: "Zufriedene Patienten" },
 ];
 
 const HERO_QUOTES = [
@@ -27,7 +27,7 @@ const HERO_QUOTES = [
   },
 ];
 
-const HERO_VISUAL = supabaseAsset("ai-generated/welle-2/hero/clinic-modern-interior.webp");
+const HERO_VISUAL = supabaseAsset("ai-generated/welle-2/cairo-mood/cairo-luxury-lifestyle.webp");
 
 export function Hero() {
   return (
@@ -71,7 +71,7 @@ export function Hero() {
           <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-[color:var(--border-strong)]">
             <Image
               src={HERO_VISUAL}
-              alt="Behandlungsraum der Clinica Javera in Kairo"
+              alt="Premium-Lifestyle in Kairo — faszinierende Stadt, modernes Flair"
               fill
               priority
               sizes="(min-width: 1024px) 40vw, 100vw"
@@ -105,7 +105,9 @@ export function Hero() {
           ))}
         </div>
 
-        <p className="text-xs text-[color:var(--text-muted)] mt-12 max-w-xl">
+        <p className="text-xs text-[color:var(--text-muted)] mt-12 max-w-2xl leading-relaxed">
+          *Erste Google-Bewertungen werden derzeit eingeholt. Stand der Veröffentlichung dieser Seite verifiziert.
+          {" "}
           Indikative Vergleichswerte. Verbindliche Angebote ausschließlich nach individuellem Befund über die Master-Site
           {" "}
           <a href="https://kairosconfident.de" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-[color:var(--gold-text)]">
