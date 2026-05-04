@@ -20,11 +20,11 @@ const TRUST_ITEMS = [
   },
   {
     roman: "iii.",
-    title: "Garantie & Nachsorge.",
+    title: "Modernste Zahnmedizin.",
     body:
-      "Behandlungsgarantie auf alle Arbeiten. Garantierte Nachsorge durch unsere Partner in Deutschland.",
-    image: supabaseAsset("clinic-tour-v2/clinic-08-fachexpertise-v2.jpeg"),
-    alt: "Fachexpertise im Behandlungsdetail",
+      "Eigenes CEREC-Labor vor Ort, schnelle Behandlung ohne lange Wartezeiten.",
+    image: supabaseAsset("clinic-tour-v2/clinic-15-entspannte-behandlung-v2.jpeg"),
+    alt: "Premium-Behandlungssuite mit moderner Diagnostik",
   },
 ];
 
