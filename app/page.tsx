@@ -22,12 +22,12 @@ export default function HomePage() {
         <TrustStripe />
         <PatientWall />
         <HowItWorks />
+        <Travel />
         <ClinicTour />
         <ConfiguratorSection />
         <Trust />
         <PatientVideos />
         <PricingComparison />
-        <Travel />
         <Faq />
         <FinalCta />
       </main>
