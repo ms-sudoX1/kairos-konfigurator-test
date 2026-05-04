@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { supabaseAsset } from "@/lib/storage-url";
 
@@ -27,7 +26,8 @@ const HERO_QUOTES = [
   },
 ];
 
-const HERO_VISUAL = supabaseAsset("ai-generated/welle-2/cairo-mood/cairo-luxury-lifestyle.webp");
+const HERO_VIDEO = supabaseAsset("testimonials/patient-02.mp4");
+const HERO_POSTER = supabaseAsset("testimonials/patient-02-poster.jpg");
 
 export function Hero() {
   return (
@@ -69,13 +69,16 @@ export function Hero() {
           </div>
 
           <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-[color:var(--border-strong)]">
-            <Image
-              src={HERO_VISUAL}
-              alt="Premium-Lifestyle in Kairo — faszinierende Stadt, modernes Flair"
-              fill
-              priority
-              sizes="(min-width: 1024px) 40vw, 100vw"
-              className="object-cover"
+            <video
+              src={HERO_VIDEO}
+              poster={HERO_POSTER}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="absolute inset-0 w-full h-full object-cover"
+              aria-hidden="true"
             />
             <div
               className="absolute inset-0 pointer-events-none"
