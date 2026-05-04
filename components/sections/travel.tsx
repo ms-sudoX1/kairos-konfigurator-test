@@ -1,28 +1,34 @@
-// ASSUMPTION: Reise-Bilder als CSS-Placeholder. Vor Live-Schaltung
-// durch lizensierte Pexels-Photos in /public/travel/*.{avif,jpg}
-// ersetzen (Pyramiden, 5★ Resort, Khan el-Khalili, Nil-Cruise).
-// Mike reviewt am Ende.
+import Image from "next/image";
+import { supabaseAsset } from "@/lib/storage-url";
 
+// Bilder: Slots 1-3 via Pexels-Free-Photos (Hotlinking, Pexels-Lizenz erlaubt
+// kommerzielle Nutzung ohne Attribution). Slot 4 via Welle-2 Cairo-Mood-Asset
+// (kein Pexels-API-Key verfügbar — siehe HO-KONFIG-VISUAL-PASS-1, Punkt 6.G
+// Workaround).
 const TRAVEL_ITEMS = [
   {
     title: "Pyramiden von Gizeh",
     body: "Wahrzeichen vor der Klinik-Tür.",
-    gradient: "linear-gradient(135deg, #c9a35a 0%, #8c6620 50%, #1c1814 100%)",
+    image: "https://images.pexels.com/photos/71241/pexels-photo-71241.jpeg?auto=compress&cs=tinysrgb&w=900",
+    alt: "Pyramiden von Gizeh in Ägypten",
   },
   {
     title: "5★ Resort am Roten Meer",
     body: "Optional als Erholungsphase nach der Behandlung.",
-    gradient: "linear-gradient(135deg, #2a5a7a 0%, #6ea7c4 50%, #d4a24c 100%)",
+    image: "https://images.pexels.com/photos/261101/pexels-photo-261101.jpeg?auto=compress&cs=tinysrgb&w=900",
+    alt: "Luxuriöses Resort am Meer",
   },
   {
     title: "Khan el-Khalili",
     body: "Historischer Bazaar — Gold, Gewürze, Geschichte.",
-    gradient: "linear-gradient(135deg, #8c6620 0%, #d4a24c 50%, #f5ede0 100%)",
+    image: "https://images.pexels.com/photos/2087387/pexels-photo-2087387.jpeg?auto=compress&cs=tinysrgb&w=900",
+    alt: "Historischer Bazaar in Kairo",
   },
   {
     title: "Nil-Cruise (3 Nächte)",
     body: "Auf Wunsch als Verlängerung Ihrer Reise.",
-    gradient: "linear-gradient(135deg, #1a3a4a 0%, #5c8aa3 50%, #ebc477 100%)",
+    image: supabaseAsset("ai-generated/welle-2/cairo-mood/cairo-luxury-lifestyle.webp"),
+    alt: "Stimmungsbild Cairo-Luxury-Lifestyle",
   },
 ];
 
@@ -48,17 +54,19 @@ export function Travel() {
               key={item.title}
               className="group relative aspect-[3/4] rounded-2xl overflow-hidden border border-[color:var(--border)] transition-transform duration-500 hover:scale-[1.02]"
             >
-              <div
-                className="absolute inset-0"
-                style={{ background: item.gradient }}
-                aria-hidden="true"
+              <Image
+                src={item.image}
+                alt={item.alt}
+                fill
+                sizes="(min-width: 768px) 25vw, 50vw"
+                className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 z-10">
                 <div className="font-display text-lg md:text-xl text-white leading-tight">
                   {item.title}
                 </div>
-                <div className="text-xs text-white/70 mt-1">{item.body}</div>
+                <div className="text-xs text-white/80 mt-1">{item.body}</div>
               </div>
             </div>
           ))}
