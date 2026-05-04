@@ -6,7 +6,6 @@ import { PatientWall } from "@/components/sections/patient-wall";
 import { ConfiguratorSection } from "@/components/sections/configurator-section";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { ClinicTour } from "@/components/sections/clinic-tour";
-import { Kernteam } from "@/components/sections/kernteam";
 import { Trust } from "@/components/sections/trust";
 import { PatientVideos } from "@/components/sections/patient-videos";
 import { PricingComparison } from "@/components/sections/pricing-comparison";
@@ -24,7 +23,6 @@ export default function HomePage() {
         <PatientWall />
         <HowItWorks />
         <ClinicTour />
-        <Kernteam />
         <ConfiguratorSection />
         <Trust />
         <PatientVideos />
