@@ -1,9 +1,12 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { Hero } from "@/components/sections/hero";
+import { PatientWall } from "@/components/sections/patient-wall";
 import { ConfiguratorSection } from "@/components/sections/configurator-section";
 import { HowItWorks } from "@/components/sections/how-it-works";
+import { ClinicTour } from "@/components/sections/clinic-tour";
 import { Trust } from "@/components/sections/trust";
+import { PatientVideos } from "@/components/sections/patient-videos";
 import { PricingComparison } from "@/components/sections/pricing-comparison";
 import { Travel } from "@/components/sections/travel";
 import { Faq } from "@/components/sections/faq";
@@ -15,9 +18,12 @@ export default function HomePage() {
       <SiteHeader />
       <main className="relative z-10">
         <Hero />
-        <ConfiguratorSection />
+        <PatientWall />
         <HowItWorks />
+        <ClinicTour />
+        <ConfiguratorSection />
         <Trust />
+        <PatientVideos />
         <PricingComparison />
         <Travel />
         <Faq />
