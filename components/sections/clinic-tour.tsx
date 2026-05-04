@@ -3,32 +3,32 @@ import { supabaseAsset } from "@/lib/storage-url";
 
 const CLINIC_TILES = [
   {
-    image: "clinic-tour/clinic-04-eingangsbereich-16x9.jpeg",
+    image: "clinic-tour-v2/clinic-04-eingangsbereich-v2.jpeg",
     alt: "Eingangsbereich der Clinica Javera",
     span: "lg:col-span-2 lg:row-span-2",
   },
   {
-    image: "clinic-tour/clinic-09-beratungslounge-16x9.jpeg",
+    image: "clinic-tour-v2/clinic-09-beratungslounge-v2.jpeg",
     alt: "Beratungslounge",
     span: "",
   },
   {
-    image: "clinic-tour/clinic-10-behandlungsraum-16x9.jpeg",
+    image: "clinic-tour-v2/clinic-10-behandlungsraum-v2.jpeg",
     alt: "Moderner Behandlungsraum",
     span: "",
   },
   {
-    image: "clinic-tour/clinic-08-fachexpertise-16x9.jpeg",
+    image: "clinic-tour-v2/clinic-08-fachexpertise-v2.jpeg",
     alt: "Fachexpertise im Detail",
     span: "lg:col-span-2",
   },
   {
-    image: "clinic-tour/clinic-17-team-16x9.jpeg",
+    image: "clinic-tour-v2/clinic-17-team-v2.jpeg",
     alt: "Team der Clinica Javera",
     span: "",
   },
   {
-    image: "clinic-tour/clinic-01-javera-bei-nacht-16x9.jpeg",
+    image: "clinic-tour-v2/clinic-01-javera-bei-nacht-v2.jpeg",
     alt: "Clinica Javera bei Nacht",
     span: "",
   },

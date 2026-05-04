@@ -23,7 +23,7 @@ const TRUST_ITEMS = [
     title: "Garantie & Nachsorge.",
     body:
       "Behandlungsgarantie auf alle Arbeiten. Garantierte Nachsorge durch unsere Partner in Deutschland.",
-    image: supabaseAsset("clinic-tour/clinic-08-fachexpertise-16x9.jpeg"),
+    image: supabaseAsset("clinic-tour-v2/clinic-08-fachexpertise-v2.jpeg"),
     alt: "Fachexpertise im Behandlungsdetail",
   },
 ];
