@@ -6,23 +6,23 @@ const TRUST_ITEMS = [
     roman: "i.",
     title: "Materialien aus DE & CH.",
     body:
-      "Namhafte deutsche und schweizer Hersteller, identische Qualitätsklasse wie in einer Premium-Praxis in München.",
+      "Namhafte deutsche und schweizer Hersteller. Verarbeitung nach deutschen Qualitätsstandards.",
     image: supabaseAsset("ai-generated/welle-2/treatments/zirkonium-krone.webp"),
     alt: "Zirkonium-Krone — Materialqualität",
   },
   {
     roman: "ii.",
-    title: "Master-zertifizierte Zahnärzte.",
+    title: "Premium Implantatsysteme.",
     body:
-      "International zertifizierte Behandlerinnen und Behandler mit Spezialisierung auf Implantologie und ästhetische Zahnmedizin.",
-    image: supabaseAsset("team/team-josef-ukkeh.jpeg"),
-    alt: "Behandler-Team Clinica Javera",
+      "Straumann, Nobel Biocare, Dentsply Sirona, Zimmer Biomet, BioHorizons. International anerkannte Systeme mit hohen Langzeit-Erfolgsraten.",
+    image: supabaseAsset("ai-generated/welle-2/treatments/implantologie.webp"),
+    alt: "Implantologie — Premium-Systeme",
   },
   {
     roman: "iii.",
     title: "Garantie & Nachsorge.",
     body:
-      "Schriftliche Garantie auf alle Arbeiten. Nachsorge-Koordination auf Wunsch in Deutschland.",
+      "Behandlungsgarantie auf alle Arbeiten. Garantierte Nachsorge durch unsere Partner in Deutschland.",
     image: supabaseAsset("clinic-tour/clinic-08-fachexpertise.jpeg"),
     alt: "Fachexpertise im Behandlungsdetail",
   },
