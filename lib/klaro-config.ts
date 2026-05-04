@@ -23,9 +23,10 @@ export const klaroConfig = {
   acceptAll: true,
   hideDeclineAll: false,
   hideLearnMore: false,
-  noticeAsModal: false,
+  noticeAsModal: true,
+  showNoticeTitle: true,
   htmlTexts: true,
-  styling: { theme: ["light", "top", "wide"] },
+  styling: { theme: ["light", "wide"] },
   translations: {
     de: {
       consentModal: {
@@ -35,16 +36,16 @@ export const klaroConfig = {
       },
       consentNotice: {
         changeDescription: "Es gibt Änderungen seit deinem letzten Besuch — bitte prüfe deine Auswahl.",
-        title: "Cookies & Tracking",
-        description: "Wir würden gerne mit deiner Zustimmung Reichweite messen und Anzeigen ausspielen.",
-        learnMore: "Auswahl anpassen",
+        title: "Wir respektieren deine Privatsphäre",
+        description: "Wir würden gerne mit deiner Zustimmung Reichweite messen, damit wir diese Test-Seite verbessern können.",
+        learnMore: "Einstellungen",
         testing: "",
       },
-      ok: "Alles akzeptieren",
+      ok: "Akzeptieren",
       save: "Auswahl speichern",
-      decline: "Nichts erlauben",
+      decline: "Ablehnen",
       close: "Schließen",
-      acceptAll: "Alles akzeptieren",
+      acceptAll: "Akzeptieren",
       acceptSelected: "Auswahl akzeptieren",
       service: {
         disableAll: { title: "Alles aus", description: "Alle Tools deaktivieren" },

@@ -371,26 +371,187 @@ body::after {
   transition-duration: 0s !important;
 }
 
-/* Klaro consent — AA contrast overrides (default theme fails AA on links/buttons) */
-.klaro .cookie-notice .cm-link,
-.klaro .cookie-modal .cm-link,
-.klaro a.cn-learn-more {
+/* ============================================
+   Klaro Consent — Premium Card-Modal Override
+   Targets noticeAsModal=true wrapper #cookieScreen.cookie-modal.
+   AA-Kontraste preserved (vgl. Commit a482960).
+   ============================================ */
+
+/* Centering flex container for the notice-as-modal wrapper */
+#cookieScreen.cookie-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+/* Lock body scroll while notice-as-modal is up */
+body:has(#cookieScreen .cookie-modal-notice) {
+  overflow: hidden;
+}
+
+/* Backdrop dim — Klaro renders <.cm-bg/> as full-screen overlay */
+#cookieScreen.cookie-modal > .cm-bg {
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Card */
+.klaro #cookieScreen .cookie-modal-notice {
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  -ms-transform: none !important;
+      transform: none !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 480px !important;
+  max-height: calc(100vh - 32px) !important;
+  background: #ffffff !important;
+  color: #1a1612 !important;
+  border-radius: 14px !important;
+  padding: 32px !important;
+  box-shadow:
+    0 20px 60px -12px rgba(0, 0, 0, 0.25),
+    0 8px 16px -8px rgba(0, 0, 0, 0.12) !important;
+  overflow-y: auto;
+}
+
+/* Headline (rendered when showNoticeTitle=true) */
+.klaro #cookieScreen .cookie-modal-notice .cn-body h2#id-cookie-title {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 400;
+  color: #1a1612 !important;
+  margin: 0 0 12px 0;
+  padding: 0;
+}
+
+/* Description text */
+.klaro #cookieScreen .cookie-modal-notice .cn-body p {
+  color: #4a4135 !important;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  margin: 0 0 16px 0;
+}
+.klaro #cookieScreen .cookie-modal-notice .cn-body p.cn-changes {
+  color: #6b4d17 !important;
+  font-size: 0.875rem;
+  text-decoration: underline;
+}
+
+/* Action row */
+.klaro #cookieScreen .cookie-modal-notice .cn-ok {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px;
+  margin-top: 20px;
+  align-items: stretch !important;
+  flex-wrap: nowrap !important;
+  justify-content: stretch !important;
+}
+.klaro #cookieScreen .cookie-modal-notice .cn-ok .cn-buttons {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px;
+  width: 100%;
+  margin: 0 !important;
+  order: 1;
+}
+
+/* Base button reset */
+.klaro #cookieScreen .cookie-modal-notice button.cm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  margin: 0 !important;
+}
+
+/* Accept (Gold-Primary) */
+.klaro #cookieScreen .cookie-modal-notice button.cm-btn-success {
+  background: #b8862e !important;
+  color: #ffffff !important;
+  border-color: #b8862e !important;
+  order: 1;
+}
+.klaro #cookieScreen .cookie-modal-notice button.cm-btn-success:hover {
+  background: #a0741f !important;
+  border-color: #a0741f !important;
+}
+
+/* Decline (Outline) */
+.klaro #cookieScreen .cookie-modal-notice button.cm-btn-danger,
+.klaro #cookieScreen .cookie-modal-notice button.cn-decline {
+  background: #ffffff !important;
+  color: #1a1612 !important;
+  border-color: #b8862e !important;
+  order: 2;
+}
+.klaro #cookieScreen .cookie-modal-notice button.cm-btn-danger:hover,
+.klaro #cookieScreen .cookie-modal-notice button.cn-decline:hover {
+  background: #faf6ee !important;
+}
+
+/* Settings — rendered as <button class="cm-btn cm-btn-lern-more cm-btn-info">.
+   Subtle text-link, placed last via flex order. */
+.klaro #cookieScreen .cookie-modal-notice button.cm-btn-lern-more,
+.klaro #cookieScreen .cookie-modal-notice button.cm-btn.cm-btn-info {
+  background: transparent !important;
+  color: #6b6155 !important;
+  border: none !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+  width: auto !important;
+  min-height: 0 !important;
+  padding: 8px 4px !important;
+  margin: 4px auto 0 auto !important;
+  align-self: center;
+  order: 2;
+}
+.klaro #cookieScreen .cookie-modal-notice button.cm-btn-lern-more:hover,
+.klaro #cookieScreen .cookie-modal-notice button.cm-btn.cm-btn-info:hover {
+  color: #1a1612 !important;
+  background: transparent !important;
+}
+
+/* Hide Klaro footer */
+.klaro #cookieScreen .cookie-modal-notice .cn-powered-by {
+  display: none;
+}
+
+/* Suppress focus outline on the modal container itself (Klaro auto-focuses).
+   Keep focus rings on buttons/links inside. */
+.klaro #cookieScreen .cookie-modal-notice:focus,
+.klaro #cookieScreen .cookie-modal-notice:focus-visible {
+  outline: none !important;
+}
+
+/* Settings modal (detailed dialog) — keep AA contrast */
+.klaro .cookie-modal:not(#cookieScreen) .cm-link,
+.klaro .cookie-modal:not(#cookieScreen) a.cn-learn-more {
   color: #5a3f10 !important;
   text-decoration: underline;
 }
-.klaro .cookie-notice .cm-btn-danger,
-.klaro .cookie-modal .cm-btn-danger,
-.klaro .cookie-notice .cn-decline,
-.klaro .cookie-modal .cn-decline {
+.klaro .cookie-modal:not(#cookieScreen) .cm-btn-danger,
+.klaro .cookie-modal:not(#cookieScreen) .cn-decline {
   background: #4a4135 !important;
   color: #ffffff !important;
 }
-.klaro .cookie-notice .cm-btn-success,
-.klaro .cookie-modal .cm-btn-success,
-.klaro .cookie-notice .cm-btn-success-var,
-.klaro .cookie-modal .cm-btn-success-var,
-.klaro .cn-ok button.cm-btn-success,
-.klaro .cm-btn.cm-btn-info {
+.klaro .cookie-modal:not(#cookieScreen) .cm-btn-success,
+.klaro .cookie-modal:not(#cookieScreen) .cm-btn-success-var,
+.klaro .cookie-modal:not(#cookieScreen) .cm-btn.cm-btn-info {
   background: #5a3f10 !important;
   color: #ffffff !important;
 }

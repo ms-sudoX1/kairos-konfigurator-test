@@ -42,3 +42,6 @@ next-env.d.ts
 
 # lighthouse audits (lokal, nicht versioniert)
 /.lighthouse
+
+# local dev/diagnostic scripts (asset processing, headless inspect, etc.)
+/scripts
