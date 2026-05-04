@@ -1,10 +1,12 @@
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { Hero } from "@/components/sections/hero";
+import { TrustStripe } from "@/components/sections/trust-stripe";
 import { PatientWall } from "@/components/sections/patient-wall";
 import { ConfiguratorSection } from "@/components/sections/configurator-section";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { ClinicTour } from "@/components/sections/clinic-tour";
+import { Kernteam } from "@/components/sections/kernteam";
 import { Trust } from "@/components/sections/trust";
 import { PatientVideos } from "@/components/sections/patient-videos";
 import { PricingComparison } from "@/components/sections/pricing-comparison";
@@ -18,9 +20,11 @@ export default function HomePage() {
       <SiteHeader />
       <main className="relative z-10">
         <Hero />
+        <TrustStripe />
         <PatientWall />
         <HowItWorks />
         <ClinicTour />
+        <Kernteam />
         <ConfiguratorSection />
         <Trust />
         <PatientVideos />
