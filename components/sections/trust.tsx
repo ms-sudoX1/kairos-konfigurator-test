@@ -1,21 +1,30 @@
+import Image from "next/image";
+import { supabaseAsset } from "@/lib/storage-url";
+
 const TRUST_ITEMS = [
   {
     roman: "i.",
     title: "Materialien aus DE & CH.",
     body:
       "Namhafte deutsche und schweizer Hersteller, identische Qualitätsklasse wie in einer Premium-Praxis in München.",
+    image: supabaseAsset("ai-generated/welle-2/treatments/zirkonium-krone.webp"),
+    alt: "Zirkonium-Krone — Materialqualität",
   },
   {
     roman: "ii.",
     title: "Master-zertifizierte Zahnärzte.",
     body:
       "International zertifizierte Behandlerinnen und Behandler mit Spezialisierung auf Implantologie und ästhetische Zahnmedizin.",
+    image: supabaseAsset("team/team-josef-ukkeh.jpeg"),
+    alt: "Behandler-Team Clinica Javera",
   },
   {
     roman: "iii.",
     title: "Garantie & Nachsorge.",
     body:
       "Schriftliche Garantie auf alle Arbeiten. Nachsorge-Koordination auf Wunsch in Deutschland.",
+    image: supabaseAsset("clinic-tour/clinic-08-fachexpertise.jpeg"),
+    alt: "Fachexpertise im Behandlungsdetail",
   },
 ];
 
@@ -33,12 +42,27 @@ export function Trust() {
         </div>
         <div className="grid md:grid-cols-3 gap-6">
           {TRUST_ITEMS.map((s) => (
-            <div key={s.roman} className="card">
-              <div className="w-14 h-14 rounded-full border border-[color:var(--border-strong)] flex items-center justify-center mb-6">
-                <span className="roman text-2xl">{s.roman}</span>
+            <div
+              key={s.roman}
+              className="card !p-0 overflow-hidden flex flex-col"
+            >
+              <div className="relative aspect-[16/10] w-full">
+                <Image
+                  src={s.image}
+                  alt={s.alt}
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                <div className="absolute bottom-3 left-3 w-12 h-12 rounded-full border border-[color:var(--gold)] bg-[color:var(--bg-deep)]/70 backdrop-blur-sm flex items-center justify-center">
+                  <span className="roman text-xl">{s.roman}</span>
+                </div>
               </div>
-              <h3 className="font-display text-2xl text-[color:var(--text-primary)] mb-3">{s.title}</h3>
-              <p className="text-sm text-[color:var(--text-secondary)] leading-relaxed">{s.body}</p>
+              <div className="p-7 flex-1">
+                <h3 className="font-display text-2xl text-[color:var(--text-primary)] mb-3">{s.title}</h3>
+                <p className="text-sm text-[color:var(--text-secondary)] leading-relaxed">{s.body}</p>
+              </div>
             </div>
           ))}
         </div>
