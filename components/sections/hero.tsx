@@ -107,16 +107,6 @@ export function Hero() {
             </figure>
           ))}
         </div>
-
-        <p className="text-xs text-[color:var(--text-muted)] mt-12 max-w-2xl leading-relaxed">
-          *Erste Google-Bewertungen werden derzeit eingeholt. Stand der Veröffentlichung dieser Seite verifiziert.
-          {" "}
-          Indikative Vergleichswerte. Verbindliche Angebote ausschließlich nach individuellem Befund über die Master-Site
-          {" "}
-          <a href="https://kairosconfident.de" target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-[color:var(--gold-text)]">
-            kairosconfident.de
-          </a>.
-        </p>
       </div>
     </section>
   );
