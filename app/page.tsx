@@ -7,6 +7,7 @@ import { ConfiguratorSection } from "@/components/sections/configurator-section"
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { ClinicTour } from "@/components/sections/clinic-tour";
 import { Trust } from "@/components/sections/trust";
+import { GoogleReviewsSection } from "@/components/sections/google-reviews";
 import { PatientVideos } from "@/components/sections/patient-videos";
 import { PricingComparison } from "@/components/sections/pricing-comparison";
 import { Travel } from "@/components/sections/travel";
@@ -25,6 +26,7 @@ export default function HomePage() {
         <ClinicTour />
         <ConfiguratorSection />
         <Trust />
+        <GoogleReviewsSection />
         <PatientVideos />
         <PricingComparison />
         <Travel />
