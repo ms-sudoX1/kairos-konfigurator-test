@@ -20,12 +20,6 @@ export function SiteHeader() {
           >
             Konfigurator
           </Link>
-          <Link
-            href="/konzept"
-            className="btn-ghost hidden md:inline-flex"
-          >
-            Konzept
-          </Link>
           <Link href="/konfigurator#lead" className="btn-secondary text-sm">
             Beratung sichern
           </Link>
