@@ -23,8 +23,8 @@ const TRUST_ITEMS = [
     title: "Modernste Zahnmedizin.",
     body:
       "Eigenes CEREC-Labor vor Ort, schnelle Behandlung ohne lange Wartezeiten.",
-    image: supabaseAsset("ai-generated/welle-2/treatments/digital-scanner.webp"),
-    alt: "Intraoraler Scanner — digitale Diagnostik",
+    image: supabaseAsset("clinic-tour-v2/clinic-15-entspannte-behandlung-v2.jpeg"),
+    alt: "Premium-Behandlungssuite mit moderner Diagnostik",
   },
 ];
 
